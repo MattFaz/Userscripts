@@ -67,7 +67,7 @@ This Script add a button to removes movies from Trakt collections in batches wit
 ![trakt-collection-remover-2.png](/Documentation/trakt-collection-remover-2.png)
 ![trakt-collection-remover-1.png](/Documentation/trakt-collection-remover-1.png)
 
-[Click to install](https://github.com/MattFaz/Userscripts/raw/main/trakt-colleciton-remover.user.js)
+[Click to install](https://github.com/MattFaz/Userscripts/raw/main/trakt-collection-remover.user.js)
 
 ![line](/Documentation/line.png)
 
