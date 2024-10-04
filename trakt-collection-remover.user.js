@@ -6,6 +6,8 @@
 // @version     1.0
 // @author      https://github.com/MattFaz
 // @description  Remove movies from Trakt collection with options for custom batch size or all on page
+// @downloadURL  https://github.com/MattFaz/Userscripts/raw/refs/heads/main/trakt-collection-remover.user.js
+// @updateURL    https://github.com/MattFaz/Userscripts/raw/refs/heads/main/trakt-collection-remover.user.js
 // ==/UserScript==
 
 (function () {

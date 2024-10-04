@@ -6,6 +6,8 @@
 // @version     1.0
 // @author      https://github.com/MattFaz
 // @description Adds custom tabs to the Salesforce Setup page
+// @downloadURL  https://github.com/MattFaz/Userscripts/raw/refs/heads/main/sf-custom-tabs.user.js
+// @updateURL    https://github.com/MattFaz/Userscripts/raw/refs/heads/main/sf-custom-tabs.user.js
 // ==/UserScript==
 
 (function () {

@@ -6,7 +6,10 @@
 // @version     1.4
 // @author      https://github.com/MattFaz
 // @description Copy the latest commit ref to clipboard for cherry-picking
+// @downloadURL  https://github.com/MattFaz/Userscripts/raw/refs/heads/main/git-cherry-button.user.js
+// @updateURL    https://github.com/MattFaz/Userscripts/raw/refs/heads/main/git-cherry-button.user.js
 // ==/UserScript==
+
 (function () {
     "use strict";
     function getLatestCommitRef() {

@@ -2,14 +2,17 @@
 
 This repository contains a collection of userscripts to enhance your browsing experience. To use these scripts, you'll need to install a userscript manager:
 
--   Chrome: [ViolentMonkey](https://chromewebstore.google.com/detail/violentmonkey/jinjaccalgkegednnccohejagnlnfdag) or [TamperMonkey](https://chromewebstore.google.com/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo)
--   Firefox: [TamperMonkey](https://addons.mozilla.org/en-US/firefox/addon/tampermonkey/)
+-   Chrome: [TamperMonkey](https://chromewebstore.google.com/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo) or [ViolentMonkey](https://chromewebstore.google.com/detail/violentmonkey/jinjaccalgkegednnccohejagnlnfdag)
+-   Firefox: [TamperMonkey](https://addons.mozilla.org/en-US/firefox/addon/tampermonkey/) or [GreaseMonkey](https://addons.mozilla.org/en-GB/firefox/addon/greasemonkey/)
+-   Safari: [TamperMonkey](https://apps.apple.com/us/app/tampermonkey/id1482490089) or [Userscripts](https://apps.apple.com/us/app/userscripts/id1463298887)
+
+_Note: Scripts were developed & tested using ViolentMonkey on Chrome, however should work with all of the above extensions_.
 
 # Available Scripts
 
 -   [Git Cherry-Pick Command Button](#copy-git-cherry-pick-command-button)
 -   [Salesforce Setup - Add Custom Tabs](#salesforce-setup---add-custom-tabs)
--   [Salesforce Object Manager Pinning](#salesforce-object-manager-pinning)
+-   [Salesforce Object Manager Pinner](#salesforce-object-manager-pinner)
 -   [Trakt Collection Remover](#trakt-collection-remover)
 
 ![line](/Documentation/line.png)
@@ -50,9 +53,9 @@ const customTabs = [
 
 ![line](/Documentation/line.png)
 
-## [Salesforce Object Manager Pinning](/sf-pin-object.user.js)
+## [Salesforce Object Manager Pinner](/sf-pin-object.user.js)
 
-This script adds pinning functionality to the Salesforce Object Manager, allowing you to pin frequently used objects for easy access.
+This script adds pinning functionality to the Salesforce Object Manager, allowing you to pin frequently used objects to the top of the page for easy access.
 
 ![sf-pin-object.png](/Documentation/sf-pin-object.png)
 
@@ -73,7 +76,6 @@ This Script add a button to removes movies from Trakt collections in batches wit
 
 ## TODO / Notes:
 
--   [ ] 🪲 Bug: sf-pin-object currently only works when you load directly onto the Object Manager page _(or refresh page when on the Object Manager)_.
 -   [ ] 🚀 Enhancement: sf-custom-tabs add a way to add tabs without needing to edit script
 -   [ ] 🚀 Enhancement: trakt-collection-remover Update to remove TV Shows _(may work, but is untested)_
 -   [ ] 🪲 Bug: trakt-collection-remover button disappears when selecting 'next page', requires a page refresh

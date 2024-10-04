@@ -1,271 +1,277 @@
 // ==UserScript==
-// @name         Salesforce Object Manager Pinning
+// @name         Salesforce Object Manager Pinner
 // @namespace    https://github.com/MattFaz/Userscripts
-// @version      1.0
-// @description  Add pinning functionality to Salesforce Object Manager
+// @version      1.2
+// @description  Pin frequently used objects to the top in Salesforce Object Manager
 // @author       https://github.com/MattFaz
 // @match        https://*force.com/lightning/setup/ObjectManager/home*
-// @grant        GM_getValue
-// @grant        GM_setValue
-// @grant        GM_registerMenuCommand
+// @grant        none
+// @downloadURL  https://github.com/MattFaz/Userscripts/raw/refs/heads/main/sf-pin-object.user.js
+// @updateURL    https://github.com/MattFaz/Userscripts/raw/refs/heads/main/sf-pin-object.user.js
 // ==/UserScript==
 
 (function () {
     "use strict";
 
-    const OBJECT_STATES_KEY = "sfObjectStates";
-    let isProcessing = false;
-    let lastTableLength = 0;
+    // Function to wait for an element to be available
+    function waitForElement(selector, timeout = 10000) {
+        return new Promise((resolve, reject) => {
+            const element = document.querySelector(selector);
+            if (element) {
+                return resolve(element);
+            }
 
-    function getObjectStates() {
-        return GM_getValue(OBJECT_STATES_KEY, {});
+            const observer = new MutationObserver((mutations, observer) => {
+                const element = document.querySelector(selector);
+                if (element) {
+                    observer.disconnect();
+                    resolve(element);
+                }
+            });
+
+            observer.observe(document.documentElement, {
+                childList: true,
+                subtree: true,
+            });
+
+            // Timeout after a certain period
+            setTimeout(() => {
+                observer.disconnect();
+                reject(`Element ${selector} not found within timeout`);
+            }, timeout);
+        });
     }
 
-    function setObjectStates(states) {
-        GM_setValue(OBJECT_STATES_KEY, states);
-    }
+    // Initialize the script when the necessary elements are available
+    async function init() {
+        try {
+            // Wait for the table and header elements
+            await waitForElement("#setupComponent table");
+            await waitForElement(
+                "#setupComponent > div.slds-page-header.branding-setup.onesetupSetupHeader"
+            );
 
-    function updateObjectState(apiName, state) {
-        // console.log(`Updating state for ${apiName}:`, state);
-        const states = getObjectStates();
-        states[apiName] = { ...states[apiName], ...state };
-        setObjectStates(states);
-    }
+            addPinHeader();
+            updatePinnedObjectsBox();
+            addPinIcons();
 
-    function createPinButton(apiName, label, isPinned) {
-        const button = document.createElement("button");
-        button.innerHTML = isPinned ? "📌" : "📍";
-        button.style.background = "none";
-        button.style.border = "1px solid #d8dde6";
-        button.style.borderRadius = "4px";
-        button.style.padding = "5px 10px";
-        button.style.margin = "0 5px";
-        button.style.cursor = "pointer";
-        button.onclick = function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-            togglePinState(apiName, label);
-        };
-        return button;
-    }
+            // Observe for changes in the table (e.g., when scrolling loads more objects)
+            const tableContainer = document.querySelector(
+                "#setupComponent div.scroller-wrapper"
+            );
+            if (!tableContainer) {
+                console.log("Table container not found");
+                return;
+            }
 
-    function togglePinState(apiName, label) {
-        // console.log(`Toggling pin state for ${apiName} (${label})`);
-        const states = getObjectStates();
-        const currentState = states[apiName] || { pinned: false };
-        const newPinnedState = !currentState.pinned;
-        updateObjectState(apiName, { pinned: newPinnedState, label: label });
-        refreshPinnedArea();
-        updateTableButtons();
-    }
+            const observer = new MutationObserver(() => {
+                addPinIcons();
+            });
 
-    function createPinnedArea() {
-        let pinnedArea = document.getElementById("pinnedObjectsArea");
-        if (!pinnedArea) {
-            pinnedArea = document.createElement("div");
-            pinnedArea.id = "pinnedObjectsArea";
-            pinnedArea.style.margin = "20px";
-            pinnedArea.style.padding = "10px";
-            pinnedArea.style.border = "1px solid #d8dde6";
-            pinnedArea.style.borderRadius = "4px";
-            pinnedArea.style.backgroundColor = "#f3f2f2";
+            observer.observe(tableContainer, {
+                childList: true,
+                subtree: true,
+            });
 
-            const table = document.querySelector("table");
+            // Observe changes to the table header
+            const tableSelector = "#setupComponent table";
+            const table = document.querySelector(tableSelector);
             if (table) {
-                table.parentNode.insertBefore(pinnedArea, table);
+                const headerObserver = new MutationObserver(() => {
+                    addPinHeader();
+                });
+
+                const thead = table.querySelector("thead");
+                if (thead) {
+                    headerObserver.observe(thead, {
+                        childList: true,
+                        subtree: true,
+                    });
+                }
             }
+        } catch (error) {
+            console.error(error);
         }
-        return pinnedArea;
     }
 
-    function createPinnedButton(apiName, label) {
-        const button = document.createElement("button");
-        button.textContent = label || apiName;
-        button.style.background = "white";
-        button.style.border = "1px solid #d8dde6";
-        button.style.borderRadius = "4px";
-        button.style.padding = "8px 12px";
-        button.style.margin = "5px";
-        button.style.cursor = "pointer";
-        button.style.width = "calc(12.5% - 10px)"; // 1/8 of the width minus margins
-        button.style.whiteSpace = "nowrap";
-        button.style.overflow = "hidden";
-        button.style.textOverflow = "ellipsis";
-        button.onclick = function () {
-            window.location.href = `/lightning/setup/ObjectManager/${apiName}/FieldsAndRelationships/view`;
-        };
-        return button;
-    }
+    // Start the initialization
+    init();
 
-    function refreshPinnedArea() {
-        const pinnedArea = createPinnedArea();
-        const states = getObjectStates();
-        const pinnedObjects = Object.entries(states)
-            .filter(([_, state]) => state.pinned)
-            .sort((a, b) =>
-                (a[1].label || a[0]).localeCompare(b[1].label || b[0])
-            ); // Sort alphabetically
-
-        if (pinnedObjects.length === 0) {
-            pinnedArea.style.display = "none";
+    // Function to add pin header to the table
+    function addPinHeader() {
+        const tableSelector = "#setupComponent table";
+        const table = document.querySelector(tableSelector);
+        if (!table) {
+            console.log("Table not found for header");
             return;
         }
 
-        pinnedArea.style.display = "block";
-        pinnedArea.innerHTML =
-            '<h3 style="margin-bottom: 10px;">Pinned Objects</h3>';
-        const grid = document.createElement("div");
-        grid.style.display = "flex";
-        grid.style.flexWrap = "wrap";
-        grid.style.justifyContent = "flex-start";
-
-        pinnedObjects.forEach(([apiName, state]) => {
-            const button = createPinnedButton(apiName, state.label);
-            grid.appendChild(button);
-        });
-
-        pinnedArea.appendChild(grid);
-    }
-
-    function addHeaderColumn() {
-        const headerRow = document.querySelector("table thead tr");
-        if (headerRow && !headerRow.querySelector(".pin-header")) {
-            const pinHeader = document.createElement("th");
-            pinHeader.className = "pin-header";
-            pinHeader.style.width = "100px";
-            pinHeader.textContent = "Pin";
-            headerRow.appendChild(pinHeader);
-        }
-    }
-
-    function updateTableButtons() {
-        if (isProcessing) return;
-        isProcessing = true;
-
-        const tbody = document.querySelector("table tbody");
-        if (!tbody) {
-            console.log("Table body not found");
-            isProcessing = false;
+        const thead = table.querySelector("thead");
+        if (!thead) {
+            console.log("Table header not found");
             return;
         }
 
-        addHeaderColumn();
+        const headerRow = thead.querySelector("tr");
+        if (!headerRow) {
+            console.log("Header row not found");
+            return;
+        }
 
-        const rows = tbody.querySelectorAll("tr");
-        const states = getObjectStates();
+        // Check if the first cell is already the pin header
+        const firstTh = headerRow.querySelector("th");
+        if (firstTh && firstTh.classList.contains("pin-header")) {
+            // Pin header already added
+            return;
+        }
 
-        // console.log("Current object states:", states);
+        // Create a new header cell for the pin icon
+        const pinHeader = document.createElement("th");
+        pinHeader.classList.add("pin-header");
+        pinHeader.style.textAlign = "center";
+        pinHeader.style.width = "40px"; // Adjust width if necessary
 
+        // Insert the pin header at the beginning
+        headerRow.insertBefore(pinHeader, headerRow.firstChild);
+    }
+
+    // Function to add pin icons to each row
+    function addPinIcons() {
+        const tableSelector = "#setupComponent table";
+        const table = document.querySelector(tableSelector);
+        if (!table) {
+            console.log("Table not found");
+            return;
+        }
+
+        const rows = table.querySelectorAll("tbody > tr");
         rows.forEach((row) => {
-            const cells = row.querySelectorAll("th, td");
-            if (cells.length >= 3) {
-                const label = cells[0].textContent.trim();
-                const apiName = cells[1].textContent.trim();
-                const isPinned = states[apiName]?.pinned === true;
+            // Check if pin icon is already added
+            if (row.querySelector(".pin-cell")) return;
 
-                // console.log(`Row: ${label} (${apiName}), Pinned: ${isPinned}`);
+            // Create a new cell for the pin icon
+            const pinCell = document.createElement("td");
+            pinCell.classList.add("pin-cell");
+            pinCell.style.textAlign = "center";
+            pinCell.style.width = "40px"; // Adjust width if necessary
 
-                let pinCell = row.querySelector(".pin-cell");
-                if (!pinCell) {
-                    pinCell = document.createElement("td");
-                    pinCell.className = "pin-cell";
-                    row.appendChild(pinCell);
-                }
-                pinCell.innerHTML = "";
-                pinCell.appendChild(createPinButton(apiName, label, isPinned));
+            // Create the pin icon element
+            const pinIcon = document.createElement("span");
+            pinIcon.style.cursor = "pointer";
+            pinIcon.style.fontSize = "18px";
+
+            // Get the object name
+            const objectNameCell = row.querySelector("th a");
+            if (!objectNameCell) return;
+            const objectName = objectNameCell.textContent.trim();
+
+            // Check if the object is pinned
+            const pinnedObjects = JSON.parse(
+                localStorage.getItem("pinnedObjects") || "[]"
+            );
+            if (pinnedObjects.includes(objectName)) {
+                pinIcon.textContent = "📍";
+            } else {
+                pinIcon.textContent = "📌";
             }
-        });
 
-        isProcessing = false;
-    }
-
-    function waitForTable() {
-        return new Promise((resolve) => {
-            const checkTable = () => {
-                const table = document.querySelector("table");
-                if (table) {
-                    // console.log("Table found");
-                    resolve(table);
+            // Add click event listener to the pin icon
+            pinIcon.addEventListener("click", function () {
+                const pinnedObjects = JSON.parse(
+                    localStorage.getItem("pinnedObjects") || "[]"
+                );
+                if (pinnedObjects.includes(objectName)) {
+                    // Unpin the object
+                    const index = pinnedObjects.indexOf(objectName);
+                    pinnedObjects.splice(index, 1);
+                    pinIcon.textContent = "📌";
                 } else {
-                    // console.log("Table not found, retrying...");
-                    setTimeout(checkTable, 100);
+                    // Pin the object
+                    pinnedObjects.push(objectName);
+                    pinIcon.textContent = "📍";
                 }
-            };
-            checkTable();
+                localStorage.setItem(
+                    "pinnedObjects",
+                    JSON.stringify(pinnedObjects)
+                );
+                updatePinnedObjectsBox();
+            });
+
+            pinCell.appendChild(pinIcon);
+            row.insertBefore(pinCell, row.firstChild);
         });
     }
 
-    async function initializePinning() {
-        // console.log("Initializing pinning functionality");
-        const table = await waitForTable();
-        lastTableLength = table.rows.length;
+    // Function to create/update the pinned objects box
+    function updatePinnedObjectsBox() {
+        const headerSelector =
+            "#setupComponent > div.slds-page-header.branding-setup.onesetupSetupHeader";
+        const header = document.querySelector(headerSelector);
+        if (!header) {
+            console.log("Header not found");
+            return;
+        }
 
-        refreshPinnedArea();
-        updateTableButtons();
+        // Remove existing pinned objects box if present
+        let pinnedBox = document.getElementById("pinned-objects-box");
+        if (pinnedBox) {
+            pinnedBox.remove();
+        }
 
-        // Set up an observer to handle dynamic content changes
-        const observer = new MutationObserver((mutations) => {
-            for (let mutation of mutations) {
-                if (
-                    mutation.type === "childList" &&
-                    mutation.removedNodes.length > 0
-                ) {
-                    for (let node of mutation.removedNodes) {
-                        if (
-                            node.classList &&
-                            node.classList.contains("pin-cell")
-                        ) {
-                            // console.log("Pin cell removed, updating buttons");
-                            updateTableButtons();
-                            return;
-                        }
-                    }
+        // Get pinned objects
+        const pinnedObjects = JSON.parse(
+            localStorage.getItem("pinnedObjects") || "[]"
+        );
+        if (pinnedObjects.length === 0) return;
+
+        // Create the box container
+        pinnedBox = document.createElement("div");
+        pinnedBox.id = "pinned-objects-box";
+        pinnedBox.style.display = "flex";
+        pinnedBox.style.flexWrap = "wrap";
+        pinnedBox.style.marginTop = "5px";
+        pinnedBox.style.justifyContent = "center"; // Center the pinned buttons
+        pinnedBox.style.padding = "10px 0"; // Optional: add padding
+        pinnedBox.style.borderBottom = "1px solid #ddd"; // Optional: add a bottom border
+
+        // Create buttons for each pinned object
+        pinnedObjects.forEach((objectName) => {
+            const button = document.createElement("button");
+            button.textContent = objectName;
+            button.style.marginRight = "10px";
+            button.style.marginBottom = "5px";
+            button.classList.add("slds-button", "slds-button_neutral");
+            button.addEventListener("click", function () {
+                // Navigate to the object's page
+                const link = findObjectLink(objectName);
+                if (link) {
+                    link.click();
+                } else {
+                    alert(
+                        "Object not found in the table. Please scroll down to load more objects."
+                    );
                 }
-            }
-
-            const currentTableLength = table.rows.length;
-            if (currentTableLength !== lastTableLength) {
-                // console.log("Table length changed, updating buttons");
-                lastTableLength = currentTableLength;
-                updateTableButtons();
-                refreshPinnedArea();
-            }
+            });
+            pinnedBox.appendChild(button);
         });
 
-        observer.observe(table, { childList: true, subtree: true });
-        // console.log("MutationObserver set up");
+        // Insert the pinned box after the header
+        header.parentNode.insertBefore(pinnedBox, header.nextSibling);
+    }
 
-        // Periodically check and update buttons
-        setInterval(() => {
-            if (!document.querySelector(".pin-cell")) {
-                // console.log("Pin cells missing, updating buttons");
-                updateTableButtons();
+    // Helper function to find the object link
+    function findObjectLink(objectName) {
+        const tableSelector = "#setupComponent table";
+        const table = document.querySelector(tableSelector);
+        if (!table) return null;
+
+        const rows = table.querySelectorAll("tbody > tr");
+        for (let row of rows) {
+            const cell = row.querySelector("th a");
+            if (cell && cell.textContent.trim() === objectName) {
+                return cell;
             }
-        }, 1000);
-    }
-
-    function clearObjectStates() {
-        GM_setValue(OBJECT_STATES_KEY, {});
-        // console.log("Object states cleared");
-        refreshPinnedArea();
-        updateTableButtons();
-    }
-
-    // Register a menu command to clear states
-    GM_registerMenuCommand(
-        "Clear Pinned Salesforce Objects",
-        clearObjectStates
-    );
-
-    // Expose the clearObjectStates function to the global scope
-    unsafeWindow.clearSalesforceObjectStates = clearObjectStates;
-
-    // Start the initialization process when the page loads
-    if (document.readyState === "loading") {
-        // console.log("Document still loading, waiting for DOMContentLoaded");
-        window.addEventListener("DOMContentLoaded", initializePinning);
-    } else {
-        // console.log("Document already loaded, initializing immediately");
-        initializePinning();
+        }
+        return null;
     }
 })();
