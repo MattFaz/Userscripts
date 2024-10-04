@@ -7,6 +7,13 @@ This repository contains a collection of userscripts to enhance your browsing ex
 
 # Available Scripts
 
+-   [Git Cherry-Pick Command Button](#copy-git-cherry-pick-command-button)
+-   [Salesforce Setup - Add Custom Tabs](#salesforce-setup---add-custom-tabs)
+-   [Salesforce Object Manager Pinning](#salesforce-object-manager-pinning)
+-   [Trakt Collection Remover](#trakt-collection-remover)
+
+![line](/Documentation/line.png)
+
 ## [Copy Git Cherry-Pick Command Button](/git-cherry-button.user.js)
 
 This script adds a button to GitHub pull request pages, allowing you to easily copy the git cherry-pick command for the latest commit.
