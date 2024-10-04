@@ -7,7 +7,7 @@ This repository contains a collection of userscripts to enhance your browsing ex
 
 # Available Scripts
 
-## [Copy Git Cherry-Pick Command Button](https://github.com/MattFaz/Userscripts/raw/main/git-cherry-button.js)
+## [Copy Git Cherry-Pick Command Button](/git-cherry-button.user.js)
 
 This script adds a button to GitHub pull request pages, allowing you to easily copy the git cherry-pick command for the latest commit.
 
@@ -15,11 +15,11 @@ This script adds a button to GitHub pull request pages, allowing you to easily c
 
 Clicking the button will copy the following to clipboard: `git cherry-pick aa82614 -m 1`
 
-[Click to install](https://github.com/MattFaz/Userscripts/raw/main/git-cherry-button.js)
+[Click to install](https://github.com/MattFaz/Userscripts/raw/main/git-cherry-button.user.js)
 
 ![line](/Documentation/line.png)
 
-## [Salesforce Setup - Add Custom Tabs](https://github.com/MattFaz/Userscripts/raw/main/sf-custom-tabs.js)
+## [Salesforce Setup - Add Custom Tabs](/sf-custom-tabs.user.js)
 
 This script adds custom tabs to the Salesforce Setup page for quick access to frequently used sections.
 
@@ -39,17 +39,28 @@ const customTabs = [
 ];
 ```
 
-[Click to install](https://github.com/MattFaz/Userscripts/raw/main/sf-custom-tabs.js)
+[Click to install](https://github.com/MattFaz/Userscripts/raw/main/sf-custom-tabs.user.js)
 
 ![line](/Documentation/line.png)
 
-## [Salesforce Object Manager Pinning](https://github.com/MattFaz/Userscripts/raw/main/sf-pin-object.js)
+## [Salesforce Object Manager Pinning](/sf-pin-object.user.js)
 
 This script adds pinning functionality to the Salesforce Object Manager, allowing you to pin frequently used objects for easy access.
 
 ![sf-pin-object.png](/Documentation/sf-pin-object.png)
 
-[Click to install](https://github.com/MattFaz/Userscripts/raw/main/sf-pin-object.js)
+[Click to install](https://github.com/MattFaz/Userscripts/raw/main/sf-pin-object.user.js)
+
+![line](/Documentation/line.png)
+
+## [Trakt Collection Remover](/trakt-collection-remover.user.js)
+
+This Script add a button to removes movies from Trakt collections in batches with a countdown display. A popup window prompts for the batch size _(or you can selet All on Page)_.
+
+![trakt-collection-remover-2.png](/Documentation/trakt-collection-remover-2.png)
+![trakt-collection-remover-1.png](/Documentation/trakt-collection-remover-1.png)
+
+[Click to install](https://github.com/MattFaz/Userscripts/raw/main/trakt-colleciton-remover.user.js)
 
 ![line](/Documentation/line.png)
 
@@ -57,6 +68,8 @@ This script adds pinning functionality to the Salesforce Object Manager, allowin
 
 -   [ ] 🪲 Bug: sf-pin-object currently only works when you load directly onto the Object Manager page _(or refresh page when on the Object Manager)_.
 -   [ ] 🚀 Enhancement: sf-custom-tabs add a way to add tabs without needing to edit script
+-   [ ] 🚀 Enhancement: trakt-collection-remover Update to remove TV Shows _(may work, but is untested)_
+-   [ ] 🪲 Bug: trakt-collection-remover button disappears when selecting 'next page', requires a page refresh
 
 ## Contributing
 
