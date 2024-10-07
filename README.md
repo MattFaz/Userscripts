@@ -76,7 +76,6 @@ This Script add a button to removes movies from Trakt collections in batches wit
 
 ## TODO / Notes:
 
--   [ ] 🚀 Enhancement: sf-custom-tabs add a way to add tabs without needing to edit script
 -   [ ] 🚀 Enhancement: trakt-collection-remover Update to remove TV Shows _(may work, but is untested)_
 -   [ ] 🪲 Bug: trakt-collection-remover button disappears when selecting 'next page', requires a page refresh
 

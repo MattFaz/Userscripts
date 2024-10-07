@@ -1,3 +1,4 @@
 2024-10-07
 
+-   sf-pin-object v1.3: Refresh page on Object Manager select, refactored to implement ES6+ and other code improvements
 -   sf-custom-tabs v1.1: Added functionality to add / remove tabs from Salesforce UI rather than needing to edit Script
