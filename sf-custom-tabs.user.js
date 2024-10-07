@@ -58,7 +58,7 @@
     };
 
     /**
-     * Displays a non-blocking notification message.
+     * Displays a non-blocking notification message at the top center of the page.
      * @param {string} message - The message to display.
      * @param {string} [type='info'] - The type of message ('info', 'success', 'warning').
      */
@@ -262,10 +262,12 @@
                     link.setAttribute("aria-selected", "false");
                     link.setAttribute("tabindex", "-1");
                 }
-                // Remove "X" button from previously active tab
-                const removeBtn = tab.querySelector(SELECTORS.removeTabBtn);
-                if (removeBtn) {
-                    removeBtn.remove();
+                // Remove "X" button from previously active custom tabs only
+                if (tab.classList.contains("custom-tab")) {
+                    const removeBtn = tab.querySelector(SELECTORS.removeTabBtn);
+                    if (removeBtn) {
+                        removeBtn.remove();
+                    }
                 }
             });
 
@@ -281,29 +283,31 @@
                 link.setAttribute("tabindex", "0");
             }
 
-            // Add "X" button to the active tab
-            const removeBtn = document.createElement("button");
-            removeBtn.className = "remove-tab-btn";
-            removeBtn.innerHTML = "×";
-            removeBtn.title = `Remove ${
-                tabElement.querySelector("span.title").textContent
-            }`;
-            removeBtn.addEventListener("click", (event) => {
-                event.preventDefault();
-                event.stopPropagation();
-                const tabName =
-                    tabElement.querySelector("span.title").textContent;
-                // Use custom notification instead of confirm
-                if (
-                    confirm(
-                        `Are you sure you want to remove the "${tabName}" tab?`
-                    )
-                ) {
-                    removeTab(tabName); // Remove the tab
-                }
-            });
+            // Add "X" button to the active tab if it's a custom tab
+            if (tabElement.classList.contains("custom-tab")) {
+                const removeBtn = document.createElement("button");
+                removeBtn.className = "remove-tab-btn";
+                removeBtn.innerHTML = "×";
+                removeBtn.title = `Remove ${
+                    tabElement.querySelector("span.title").textContent
+                }`;
+                removeBtn.addEventListener("click", (event) => {
+                    event.preventDefault();
+                    event.stopPropagation();
+                    const tabName =
+                        tabElement.querySelector("span.title").textContent;
+                    // Use custom notification instead of confirm
+                    if (
+                        confirm(
+                            `Are you sure you want to remove the "${tabName}" tab?`
+                        )
+                    ) {
+                        removeTab(tabName); // Remove the tab
+                    }
+                });
 
-            tabElement.appendChild(removeBtn);
+                tabElement.appendChild(removeBtn);
+            }
 
             // Use Salesforce's navigation service (keep as per your request)
             if (window.$A && $A.get && $A.get("e.force:navigateToURL")) {
@@ -380,10 +384,17 @@
                 const target = event.target.closest("a.tabHeader");
                 if (!target) return;
 
+                const tabElement = target.closest("li.oneConsoleTabItem");
+
+                // Only handle clicks on custom tabs
+                if (!tabElement.classList.contains("custom-tab")) {
+                    // Let default behavior proceed for default tabs
+                    return;
+                }
+
                 event.preventDefault();
                 const url = target.getAttribute("data-url");
                 const tabId = target.getAttribute("data-tabid");
-                const tabElement = target.closest("li.oneConsoleTabItem");
 
                 if (tabId === "addNewTab") {
                     addUserTabFromCurrentPage();
