@@ -1,3 +1,7 @@
+2024-10-08
+
+-   sf-pin-object v1.4: Significant rewrite to simplify
+
 2024-10-07
 
 -   sf-pin-object v1.3: Refresh page on Object Manager select, refactored to implement ES6+ and other code improvements
