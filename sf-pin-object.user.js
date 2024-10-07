@@ -4,7 +4,7 @@
 // @version      1.4
 // @description  Pin frequently used objects to the top in Salesforce Object Manager
 // @author       https://github.com/MattFaz
-// @match        https://*force.com/lightning/setup/ObjectManager/home*
+// @match        https://*force.com/lightning/setup/*
 // @grant        none
 // @downloadURL  https://github.com/MattFaz/Userscripts/raw/refs/heads/main/sf-pin-object.user.js
 // @updateURL    https://github.com/MattFaz/Userscripts/raw/refs/heads/main/sf-pin-object.user.js
