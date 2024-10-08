@@ -1,13 +1,16 @@
 // ==UserScript==
 // @name         Salesforce Object Manager Pinner
 // @namespace    https://github.com/MattFaz/Userscripts
-// @version      1.5
+// @version      1.6
 // @description  Pin frequently used objects to the top in Salesforce Object Manager
 // @author       https://github.com/MattFaz
 // @match        https://*.force.com/lightning/setup/*
 // @match        https://*.salesforce.com/lightning/setup/*
 // @match        https://*.my.salesforce.com/lightning/setup/*
-// @grant        none
+// @grant        GM_setValue
+// @grant        GM_getValue
+// @grant        GM_listValues
+// @grant        GM_deleteValue
 // @downloadURL  https://github.com/MattFaz/Userscripts/raw/refs/heads/main/sf-pin-object.user.js
 // @updateURL    https://github.com/MattFaz/Userscripts/raw/refs/heads/main/sf-pin-object.user.js
 // ==/UserScript==
@@ -16,6 +19,14 @@
     "use strict";
 
     const STORAGE_KEY = "objectManagerItems";
+
+    const saveItems = (items) => {
+        GM_setValue(STORAGE_KEY, JSON.stringify(items));
+    };
+
+    const getItems = () => {
+        return JSON.parse(GM_getValue(STORAGE_KEY, "[]"));
+    };
 
     // Function to check the page title
     const checkTitle = () => {
@@ -56,7 +67,7 @@
 
     // Function to get the color based on local storage state
     const getCircleColor = (id) => {
-        const storedItems = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+        const storedItems = getItems();
         const item = storedItems.find((item) => item.id === id);
         return item ? (item.saved ? "green" : "lightgray") : "lightgray";
     };
@@ -100,8 +111,7 @@
                             : "lightgray";
 
                         // Update the storage
-                        let items =
-                            JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+                        let items = getItems();
                         const itemIndex = items.findIndex(
                             (item) => item.id === id
                         );
@@ -114,12 +124,9 @@
                                 saved,
                             });
                         }
-                        localStorage.setItem(
-                            STORAGE_KEY,
-                            JSON.stringify(items)
-                        );
+                        saveItems(items);
                         console.log(
-                            `Saved to local storage: ${aTag.textContent.trim()} (${id})`
+                            `Saved to GM storage: ${aTag.textContent.trim()} (${id})`
                         );
 
                         // Update buttons in the table
@@ -153,9 +160,9 @@
 
     // Function to remove an item from storage and update UI
     const removeItem = (id) => {
-        let items = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+        let items = getItems();
         items = items.filter((item) => item.id !== id);
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
+        saveItems(items);
 
         // Update the circle color in the corresponding row
         const rows = document.querySelectorAll(
@@ -217,7 +224,7 @@
             existingButtonsRow.remove();
         }
 
-        const storedItems = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+        const storedItems = getItems();
         const savedItems = storedItems.filter((item) => item.saved);
 
         if (savedItems.length === 0) {

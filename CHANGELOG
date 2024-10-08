@@ -1,5 +1,7 @@
 2024-10-09
 
+-   sf-pin-object v1.6: Use `GM` to store values so it is cross org
+
 -   sf-pin-object v1.5: Update @match
 -   sf-custom-tabs v1.2: Update @match
 
