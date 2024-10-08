@@ -6,7 +6,7 @@ This repository contains a collection of userscripts to enhance your browsing ex
 -   Firefox: [TamperMonkey](https://addons.mozilla.org/en-US/firefox/addon/tampermonkey/) or [GreaseMonkey](https://addons.mozilla.org/en-GB/firefox/addon/greasemonkey/)
 -   Safari: [TamperMonkey](https://apps.apple.com/us/app/tampermonkey/id1482490089) or [Userscripts](https://apps.apple.com/us/app/userscripts/id1463298887)
 
-_Note: Scripts were developed & tested using ViolentMonkey on Chrome, however should work with all of the above extensions_.
+\_Note: Chrome may require you to enable Developer Mode. To enable Developer Mode in Chrome: Open the menu, select "Extensions" and "Manage extensions". Find and click the "Developer Mode" toggle at the top right to enable it.
 
 # Available Scripts
 
