@@ -35,20 +35,6 @@ This script adds custom tabs to the Salesforce Setup page for quick access to fr
 
 ![sf-custom-tabs.png](/Documentation/sf-custom-tabs.png)
 
-To add/modify the custom tabs edit the `customTabs` list in your Userscript extension. Add/Remove lines ensuring you copy the format of the existing lines _(URL can be obtained by browsing to the page and copying everything in the URL after `.com`)_.
-
-Default `customTabs` is:
-
-```js
-const customTabs = [
-    { name: "Classes", url: "/lightning/setup/ApexClasses/home" },
-    { name: "Deployments", url: "/lightning/setup/DeployStatus/home" },
-    { name: "Flows", url: "/lightning/setup/Flows/home" },
-    { name: "Profiles", url: "/lightning/setup/EnhancedProfiles/home" },
-    { name: "Users", url: "/lightning/setup/ManageUsers/home" },
-];
-```
-
 [Click to install](https://github.com/MattFaz/Userscripts/raw/main/sf-custom-tabs.user.js)
 
 ![line](/Documentation/line.png)
