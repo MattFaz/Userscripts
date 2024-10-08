@@ -1,13 +1,15 @@
 // ==UserScript==
 // @name        Salesforce Setup - Add Custom Tabs
 // @namespace   https://github.com/MattFaz/Userscripts
-// @match       https://*force.com/lightning/setup/*
+// @match       https://*.force.com/lightning/setup/*
+// @match       https://*.salesforce.com/lightning/setup/*
+// @match       https://*.my.salesforce.com/lightning/setup/*
 // @grant       none
-// @version     1.1
+// @version     1.2
 // @author      https://github.com/MattFaz
 // @description Adds custom tabs to the Salesforce Setup page
-// @downloadURL  https://github.com/MattFaz/Userscripts/raw/refs/heads/main/sf-custom-tabs.user.js
-// @updateURL    https://github.com/MattFaz/Userscripts/raw/refs/heads/main/sf-custom-tabs.user.js
+// @downloadURL https://github.com/MattFaz/Userscripts/raw/refs/heads/main/sf-custom-tabs.user.js
+// @updateURL   https://github.com/MattFaz/Userscripts/raw/refs/heads/main/sf-custom-tabs.user.js
 // ==/UserScript==
 
 (function () {
