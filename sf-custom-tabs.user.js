@@ -4,8 +4,9 @@
 // @match       https://*.force.com/lightning/setup/*
 // @match       https://*.salesforce.com/lightning/setup/*
 // @match       https://*.my.salesforce.com/lightning/setup/*
-// @grant       none
-// @version     1.2
+// @grant       GM_getValue
+// @grant       GM_setValue
+// @version     1.3
 // @author      https://github.com/MattFaz
 // @description Adds custom tabs to the Salesforce Setup page
 // @downloadURL https://github.com/MattFaz/Userscripts/raw/refs/heads/main/sf-custom-tabs.user.js
@@ -108,8 +109,8 @@
                 padding-left: 4px !important;
                 padding-right: 4px !important;
             }
-            .remove-tab-btn {
-                margin-left: 8px;
+            .remove-tab-btn, .edit-tab-btn {
+                margin-left: 4px;
                 background: none;
                 border: none;
                 color: gray;
@@ -120,7 +121,7 @@
                 display: inline-block;
                 vertical-align: middle;
             }
-            .remove-tab-btn:hover {
+            .remove-tab-btn:hover, .edit-tab-btn:hover {
                 color: darkgray;
             }
             /* Notification styles */
@@ -134,12 +135,7 @@
      * @returns {Array} Array of user tabs.
      */
     const loadUserTabs = () => {
-        try {
-            return JSON.parse(localStorage.getItem("userCustomTabs")) || [];
-        } catch (e) {
-            console.error("Could not access localStorage:", e);
-            return [];
-        }
+        return GM_getValue("userCustomTabs", []);
     };
 
     /**
@@ -147,11 +143,7 @@
      * @param {Array} tabs - Array of tabs to save.
      */
     const saveUserTabs = (tabs) => {
-        try {
-            localStorage.setItem("userCustomTabs", JSON.stringify(tabs));
-        } catch (e) {
-            console.error("Could not save to localStorage:", e);
-        }
+        GM_setValue("userCustomTabs", tabs);
     };
 
     /**
@@ -196,6 +188,18 @@
 
         // Re-render the tab list to reflect changes
         addCustomTabs();
+    };
+
+    const renameTab = (tabElement, newName) => {
+        const savedTabs = loadUserTabs();
+        const tabName = tabElement.querySelector("span.title").textContent;
+        const updatedTabs = savedTabs.map((tab) =>
+            tab.name === tabName ? { ...tab, name: newName } : tab
+        );
+        saveUserTabs(updatedTabs);
+        tabElement.querySelector("span.title").textContent = newName;
+        tabElement.querySelector("a.tabHeader").title = newName;
+        showNotification(`Tab renamed to "${newName}"`, "success");
     };
 
     /**
@@ -264,11 +268,11 @@
                     link.setAttribute("aria-selected", "false");
                     link.setAttribute("tabindex", "-1");
                 }
-                // Remove "X" button from previously active custom tabs only
+                // Remove buttons from all custom tabs
                 if (tab.classList.contains("custom-tab")) {
-                    const removeBtn = tab.querySelector(SELECTORS.removeTabBtn);
-                    if (removeBtn) {
-                        removeBtn.remove();
+                    const buttonContainer = tab.querySelector("div");
+                    if (buttonContainer) {
+                        buttonContainer.remove();
                     }
                 }
             });
@@ -285,8 +289,30 @@
                 link.setAttribute("tabindex", "0");
             }
 
-            // Add "X" button to the active tab if it's a custom tab
+            // Add "Edit" and "X" buttons to the active tab if it's a custom tab
             if (tabElement.classList.contains("custom-tab")) {
+                const buttonContainer = document.createElement("div");
+                buttonContainer.style.display = "inline-block";
+                buttonContainer.style.marginLeft = "8px";
+
+                const editBtn = document.createElement("button");
+                editBtn.className = "edit-tab-btn";
+                editBtn.innerHTML = "✎"; // Pencil icon
+                editBtn.title = "Rename tab";
+                editBtn.addEventListener("click", (event) => {
+                    event.preventDefault();
+                    event.stopPropagation();
+                    const tabName =
+                        tabElement.querySelector("span.title").textContent;
+                    const newName = prompt(
+                        `Enter new name for "${tabName}":`,
+                        tabName
+                    );
+                    if (newName && newName !== tabName) {
+                        renameTab(tabElement, newName);
+                    }
+                });
+
                 const removeBtn = document.createElement("button");
                 removeBtn.className = "remove-tab-btn";
                 removeBtn.innerHTML = "×";
@@ -298,25 +324,28 @@
                     event.stopPropagation();
                     const tabName =
                         tabElement.querySelector("span.title").textContent;
-                    // Use custom notification instead of confirm
                     if (
                         confirm(
                             `Are you sure you want to remove the "${tabName}" tab?`
                         )
                     ) {
-                        removeTab(tabName); // Remove the tab
+                        removeTab(tabName);
                     }
                 });
 
-                tabElement.appendChild(removeBtn);
+                buttonContainer.appendChild(editBtn);
+                buttonContainer.appendChild(removeBtn);
+                tabElement.appendChild(buttonContainer);
             }
 
-            // Use Salesforce's navigation service (keep as per your request)
+            // Use Salesforce's navigation service
             if (window.$A && $A.get && $A.get("e.force:navigateToURL")) {
                 $A.get("e.force:navigateToURL").setParams({ url: url }).fire();
             } else {
-                // Fallback to full page load if the navigation event is not available
-                window.location.href = url;
+                // Fallback to pushState if the navigation event is not available
+                history.pushState(null, "", url);
+                // Dispatch a custom event to notify Salesforce of the URL change
+                window.dispatchEvent(new CustomEvent("popstate"));
             }
         } catch (e) {
             console.error("Error activating tab:", e);
@@ -413,14 +442,13 @@
      * Initializes and runs the script.
      */
     const runScript = () => {
-        // Check if it's the first run by checking localStorage
-        if (!localStorage.getItem("userCustomTabs")) {
-            // First run, populate localStorage with initialTabs
+        // Check if it's the first run by checking GM storage
+        if (!GM_getValue("userCustomTabs")) {
+            // First run, populate GM storage with initialTabs
             saveUserTabs(initialTabs);
         }
         addCustomTabs();
     };
-
     // Execute the script
     runScript();
 })();
