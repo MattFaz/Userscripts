@@ -15,6 +15,12 @@ _Note: Scripts were developed & tested using ViolentMonkey on Chrome, however sh
 -   [Salesforce Object Manager Pinner](#salesforce-object-manager-pinner)
 -   [Trakt Collection Remover](#trakt-collection-remover)
 
+# Other Useful Scripts
+
+_Not created by me, but I find them useful_
+
+-   [ChatGPT CSS Fixes](https://gist.github.com/alexchexes/d2ff0b9137aa3ac9de8b0448138125ce/raw/chatgpt_ui_fix.user.js) - Adjusts width of side bar and messages of the ChatGPT web interface
+
 ![line](/Documentation/line.png)
 
 ## [Copy Git Cherry-Pick Command Button](/git-cherry-button.user.js)
