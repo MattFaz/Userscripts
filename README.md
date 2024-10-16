@@ -11,6 +11,7 @@ _Note: Chrome may require you to enable Developer Mode. To enable Developer Mode
 # Available Scripts
 
 -   [Git Cherry-Pick Command Button](#copy-git-cherry-pick-command-button)
+-   [Github Merged Dates](#)
 -   [Salesforce Setup - Add Custom Tabs](#salesforce-setup---add-custom-tabs)
 -   [Salesforce Object Manager Pinner](#salesforce-object-manager-pinner)
 -   [Trakt Collection Remover](#trakt-collection-remover)
@@ -32,6 +33,16 @@ This script adds a button to GitHub pull request pages, allowing you to easily c
 Clicking the button will copy the following to clipboard: `git cherry-pick aa82614 -m 1`
 
 [Click to install](https://github.com/MattFaz/Userscripts/raw/main/git-cherry-button.user.js)
+
+![line](/Documentation/line.png)
+
+## [Github Merged Dates](/github-merged-dates.js)
+
+Show exact date and time instead of relative dates on GitHub pull requests page.
+
+![github-merged-dates.png](/Documentation/github-merged-dates.png)
+
+[Click to install](https://github.com/MattFaz/Userscripts/raw/main/github-merged-dates.user.js)
 
 ![line](/Documentation/line.png)
 
