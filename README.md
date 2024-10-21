@@ -36,7 +36,7 @@ Clicking the button will copy the following to clipboard: `git cherry-pick aa826
 
 ![line](/Documentation/line.png)
 
-## [Github Merged Dates](/github-merged-dates.js)
+## [Github Merged Dates](/github-merged-dates.user.js)
 
 Show exact date and time instead of relative dates on GitHub pull requests page.
 
