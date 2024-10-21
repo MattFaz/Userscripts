@@ -1,3 +1,8 @@
+2024-10-22
+
+-   sf-pin-object v1.6: Match `salesforce-setup`
+-   sf-custom-tabs v1.4: Match `salesforce-setup`
+
 2024-10-09
 
 -   sf-pin-object v1.6: Use `GM` to store values so pinned objects are cross org

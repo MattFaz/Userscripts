@@ -1,12 +1,13 @@
 // ==UserScript==
 // @name         Salesforce Object Manager Pinner
 // @namespace    https://github.com/MattFaz/Userscripts
-// @version      1.6
+// @version      1.7
 // @description  Pin frequently used objects to the top in Salesforce Object Manager
 // @author       https://github.com/MattFaz
 // @match        https://*.force.com/lightning/setup/*
 // @match        https://*.salesforce.com/lightning/setup/*
 // @match        https://*.my.salesforce.com/lightning/setup/*
+// @match        https://*.salesforce-setup.com/lightning/setup/*
 // @grant        GM_setValue
 // @grant        GM_getValue
 // @grant        GM_listValues

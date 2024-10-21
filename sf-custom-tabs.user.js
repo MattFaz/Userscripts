@@ -4,9 +4,10 @@
 // @match       https://*.force.com/lightning/setup/*
 // @match       https://*.salesforce.com/lightning/setup/*
 // @match       https://*.my.salesforce.com/lightning/setup/*
+// @match       https://*.salesforce-setup.com/lightning/setup/*
 // @grant       GM_getValue
 // @grant       GM_setValue
-// @version     1.3
+// @version     1.4
 // @author      https://github.com/MattFaz
 // @description Adds custom tabs to the Salesforce Setup page
 // @downloadURL https://github.com/MattFaz/Userscripts/raw/refs/heads/main/sf-custom-tabs.user.js
