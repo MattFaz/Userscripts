@@ -12,6 +12,7 @@ _Note: Chrome may require you to enable Developer Mode. To enable Developer Mode
 
 -   [Git Cherry-Pick Command Button](#copy-git-cherry-pick-command-button)
 -   [Github Merged Dates](#)
+-   [Overcast.fm Mark as Played](#overcastfm-mark-as-played)
 -   [Salesforce Setup - Add Custom Tabs](#salesforce-setup---add-custom-tabs)
 -   [Salesforce Object Manager Pinner](#salesforce-object-manager-pinner)
 -   [Trakt Collection Remover](#trakt-collection-remover)
@@ -43,6 +44,16 @@ Show exact date and time instead of relative dates on GitHub pull requests page.
 ![github-merged-dates.png](/Documentation/github-merged-dates.png)
 
 [Click to install](https://github.com/MattFaz/Userscripts/raw/main/github-merged-dates.user.js)
+
+![line](/Documentation/line.png)
+
+## [Overcast.fm Mark as Played](/overcast-mark-as-played.user.js)
+
+Adds a _Mark as Played_ button next to episodes, as well as a _Mark All as Played_ button to the top of each podcast.
+
+![overcast-mark-as-played.png](/Documentation/overcast-mark-as-played.png)
+
+[Click to install](https://github.com/MattFaz/Userscripts/raw/main/overcastfm-mark-as-played.user.js)
 
 ![line](/Documentation/line.png)
 
