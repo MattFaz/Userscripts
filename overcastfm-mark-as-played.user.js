@@ -3,7 +3,7 @@
 // @namespace   https://github.com/MattFaz/Userscripts
 // @match       https://overcast.fm/*
 // @grant       none
-// @version     1.0
+// @version     1.1
 // @author      https://github.com/MattFaz
 // @description Adds a Mark As Played button to Overcast.fm website
 // @downloadURL  https://github.com/MattFaz/Userscripts/raw/refs/heads/main/overcastfm-mark-as-played.user.js
@@ -175,10 +175,8 @@
         markAsPlayedBtn.classList.add("overcast-mark-as-played-btn");
 
         // Add global "Mark All as Played" button next to delete button
-        const deleteButton = document.querySelector(
-            "#deletepodcastform > button"
-        );
-        if (deleteButton && !document.querySelector(".mark-all-played-btn")) {
+        const deleteForm = document.querySelector("#deletepodcastform");
+        if (deleteForm && !document.querySelector(".mark-all-played-btn")) {
             const markAllBtn = document.createElement("button");
             markAllBtn.innerText = "Mark All as Played";
             markAllBtn.onclick = markAllAsPlayed;
@@ -186,7 +184,7 @@
             Object.assign(markAllBtn.style, {
                 marginRight: "8px",
             });
-            deleteButton.parentNode.insertBefore(markAllBtn, deleteButton);
+            deleteForm.parentNode.insertBefore(markAllBtn, deleteForm);
         }
 
         // Add individual "Mark as Played" buttons to each unplayed episode
