@@ -6,6 +6,8 @@
 // @version     1.0
 // @author      https://github.com/MattFaz
 // @description Displays a custom box with Credit Card Balance (including pending).
+// @downloadURL https://github.com/MattFaz/Userscripts/raw/refs/heads/main/commbank-credit-card-usage.user.js
+// @updateURL   https://github.com/MattFaz/Userscripts/raw/refs/heads/main/commbank-credit-card-usage.user.js
 // ==/UserScript==
 
 (function () {
