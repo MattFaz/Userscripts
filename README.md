@@ -10,8 +10,9 @@ _Note: Chrome may require you to enable Developer Mode. To enable Developer Mode
 
 # Available Scripts
 
+-   [CommBank Credit Card Usage](#commbank-credit-card-usage)
 -   [Git Cherry-Pick Command Button](#copy-git-cherry-pick-command-button)
--   [Github Merged Dates](#)
+-   [Github Merged Dates](#github-merged-dates)
 -   [Overcast.fm Mark as Played](#overcastfm-mark-as-played)
 -   [Salesforce Setup - Add Custom Tabs](#salesforce-setup---add-custom-tabs)
 -   [Salesforce Object Manager Pinner](#salesforce-object-manager-pinner)
@@ -22,6 +23,16 @@ _Note: Chrome may require you to enable Developer Mode. To enable Developer Mode
 _Not created by me, but I find them useful_
 
 -   [ChatGPT CSS Fixes](https://gist.github.com/alexchexes/d2ff0b9137aa3ac9de8b0448138125ce/raw/chatgpt_ui_fix.user.js) - Adjusts width of side bar and messages of the ChatGPT web interface
+
+![line](/Documentation/line.png)
+
+## [CommBank Credit Card Usage](/commbank-credit-card-usage.user.js)
+
+The CommBank Credit Card page doesn't show your current balance including pending transactions. This Script adds a small window to the page that displays your balance inclusive of all pending transactions.
+
+![commbank-credit-card-usage](/Documentation/commbank-credit-card-usage.png)
+
+[Click to install](https://github.com/MattFaz/Userscripts/raw/main/commbank-credit-card-usage.user.js)
 
 ![line](/Documentation/line.png)
 
