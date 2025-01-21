@@ -4,7 +4,7 @@
 // @match       https://www1.my.commbank.com.au/netbank/TransactionHistory/History.aspx*
 // @match       https://www2.my.commbank.com.au/netbank/TransactionHistory/History.aspx*
 // @grant       none
-// @version     1.0
+// @version     1.1
 // @author      https://github.com/MattFaz
 // @description Displays a custom box with Credit Card Balance (including pending).
 // @downloadURL https://github.com/MattFaz/Userscripts/raw/refs/heads/main/commbank-credit-card-usage.user.js
