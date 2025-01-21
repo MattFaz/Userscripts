@@ -1,6 +1,7 @@
 // ==UserScript==
 // @name        CommBank - Credit Card Usage
 // @namespace   https://github.com/MattFaz/Userscripts
+// @match       https://www1.my.commbank.com.au/netbank/TransactionHistory/History.aspx*
 // @match       https://www2.my.commbank.com.au/netbank/TransactionHistory/History.aspx*
 // @grant       none
 // @version     1.0
