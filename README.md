@@ -12,6 +12,7 @@ _Note: Chrome may require you to enable Developer Mode. To enable Developer Mode
 
 -   [CommBank Credit Card Usage](#commbank-credit-card-usage)
 -   [Git Cherry-Pick Command Button](#copy-git-cherry-pick-command-button)
+-   [Github Actions Comment Deleter](#github-actions-comment-deleter)
 -   [Github Merged Dates](#github-merged-dates)
 -   [Overcast.fm Mark as Played](#overcastfm-mark-as-played)
 -   [Salesforce Setup - Add Custom Tabs](#salesforce-setup---add-custom-tabs)
@@ -45,6 +46,16 @@ This script adds a button to GitHub pull request pages, allowing you to easily c
 Clicking the button will copy the following to clipboard: `git cherry-pick aa82614 -m 1`
 
 [Click to install](https://github.com/MattFaz/Userscripts/raw/main/git-cherry-button.user.js)
+
+![line](/Documentation/line.png)
+
+## [Github Actions Comment Deleter](/github-actions-comment-deleter.user.js)
+
+This script adds a button to Github pull request pages, allowing you to easily delete all comments by the Github Actions bot.
+
+![github-actions-comment-deleter.png](/Documentation/github-actions-comment-deleter.png)
+
+[Click to install](https://github.com/MattFaz/Userscripts/raw/main/github-actions-comment-deleter.user.js)
 
 ![line](/Documentation/line.png)
 

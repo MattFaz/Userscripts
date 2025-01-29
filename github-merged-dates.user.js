@@ -1,13 +1,13 @@
 // ==UserScript==
 // @name         GitHub Merged Dates
-// @namespace    http://tampermonkey.net/
-// @version      1.0
+// @namespace    https://github.com/MattFaz/Userscripts
+// @version      1.1
 // @description  Show exact date and time instead of relative dates on GitHub pull requests page.
 // @author       https://github.com/MattFaz
-// @match        https://github.com/*/*/pulls*
+// @match        https://github.com/*
 // @grant        none
-// @downloadURL https://github.com/MattFaz/Userscripts/raw/refs/heads/main/github-merged-dates.user.js
-// @updateURL   https://github.com/MattFaz/Userscripts/raw/refs/heads/main/github-merged-dates.user.js
+// @downloadURL  https://github.com/MattFaz/Userscripts/raw/refs/heads/main/github-merged-dates.user.js
+// @updateURL    https://github.com/MattFaz/Userscripts/raw/refs/heads/main/github-merged-dates.user.js
 // ==/UserScript==
 
 (function () {
