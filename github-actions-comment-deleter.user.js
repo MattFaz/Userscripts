@@ -29,11 +29,14 @@
         const comments = Array.from(
             document.querySelectorAll(".TimelineItem")
         ).filter((item) => {
-            const botName = item.querySelector(
+            const githubActionsBot = item.querySelector(
                 '.author[href="/apps/github-actions"]'
             );
+            const runwayBot = item.querySelector(
+                '.author[href="/apps/runway-bot"]'
+            );
             const botLabel = item.querySelector(".Label--secondary");
-            return botName && botLabel && botLabel.textContent.trim() === "bot";
+            return (githubActionsBot || runwayBot) && botLabel && botLabel.textContent.trim() === "bot";
         });
 
         console.log(`Found ${comments.length} bot comments`);
