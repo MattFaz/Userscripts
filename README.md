@@ -51,7 +51,10 @@ Clicking the button will copy the following to clipboard: `git cherry-pick aa826
 
 ## [Github Actions Comment Deleter](/github-actions-comment-deleter.user.js)
 
-This script adds a button to Github pull request pages, allowing you to easily delete all comments by the Github Actions bot.
+This script adds buttons to Github pull request pages:
+
+- **Delete Bot Comments** - Deletes all comments by the Github Actions bot and Runway bot
+- **Resolve All Comments** - Resolves all review conversation threads
 
 ![github-actions-comment-deleter.png](/Documentation/github-actions-comment-deleter.png)
 

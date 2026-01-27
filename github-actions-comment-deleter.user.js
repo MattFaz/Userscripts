@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name         Github Actions Comment Deleter
 // @namespace    https://github.com/MattFaz/Userscripts
-// @version      1.01
-// @description  Delete all Github Actions bot comments
+// @version      1.02
+// @description  Delete all Github Actions bot comments and resolve review threads
 // @author       https://github.com/MattFaz
 // @match        https://github.com/*
 // @grant        none
@@ -17,12 +17,19 @@
     const header = document.querySelector(".gh-header-actions");
     if (!header) return;
 
-    const button = document.createElement("button");
-    button.textContent = "Delete Bot Comments";
-    button.className = "btn btn-sm";
-    button.style.marginLeft = "10px";
-    button.onclick = deleteAllBotComments;
-    header.appendChild(button);
+    const deleteBtn = document.createElement("button");
+    deleteBtn.textContent = "Delete Bot Comments";
+    deleteBtn.className = "btn btn-sm";
+    deleteBtn.style.marginLeft = "10px";
+    deleteBtn.onclick = deleteAllBotComments;
+    header.appendChild(deleteBtn);
+
+    const resolveBtn = document.createElement("button");
+    resolveBtn.textContent = "Resolve All Comments";
+    resolveBtn.className = "btn btn-sm";
+    resolveBtn.style.marginLeft = "10px";
+    resolveBtn.onclick = resolveAllComments;
+    header.appendChild(resolveBtn);
   }
 
   async function deleteAllBotComments() {
@@ -62,6 +69,30 @@
         console.error("Error deleting comment:", error);
       }
     }
+  }
+
+  async function resolveAllComments() {
+    // Find all resolve conversation buttons
+    const resolveButtons = document.querySelectorAll(
+      'button[name="comment[resolve]"], form.js-resolvable-timeline-thread-form button[type="submit"]'
+    );
+
+    console.log(`Found ${resolveButtons.length} resolve buttons`);
+
+    for (const button of resolveButtons) {
+      try {
+        // Check if the button text indicates it's a resolve button (not unresolve)
+        const buttonText = button.textContent.trim().toLowerCase();
+        if (buttonText.includes("resolve") && !buttonText.includes("unresolve")) {
+          button.click();
+          await new Promise((resolve) => setTimeout(resolve, 500));
+        }
+      } catch (error) {
+        console.error("Error resolving comment:", error);
+      }
+    }
+
+    console.log("Finished resolving comments");
   }
 
   addDeleteButton();
