@@ -14,6 +14,7 @@ _Note: Chrome may require you to enable Developer Mode. To enable Developer Mode
 -   [Git Cherry-Pick Command Button](#copy-git-cherry-pick-command-button)
 -   [Github Actions Comment Deleter](#github-actions-comment-deleter)
 -   [Github Merged Dates](#github-merged-dates)
+-   [Overcast.fm Dark Mode](#overcastfm-dark-mode)
 -   [Overcast.fm Mark as Played](#overcastfm-mark-as-played)
 -   [Salesforce Setup - Add Custom Tabs](#salesforce-setup---add-custom-tabs)
 -   [Salesforce Object Manager Pinner](#salesforce-object-manager-pinner)
@@ -69,6 +70,16 @@ Show exact date and time instead of relative dates on GitHub pull requests page.
 ![github-merged-dates.png](/Documentation/github-merged-dates.png)
 
 [Click to install](https://github.com/MattFaz/Userscripts/raw/main/github-merged-dates.user.js)
+
+![line](/Documentation/line.png)
+
+## [Overcast.fm Dark Mode](/overcastfm-dark-mode.user.js)
+
+Adds dark mode to the Overcast.fm website, replacing the default white background with a dark theme while preserving the Overcast orange accent colour.
+
+![overcastfm-dark-mode.png](/Documentation/overcastfm-dark-mode.png)
+
+[Click to install](https://github.com/MattFaz/Userscripts/raw/main/overcastfm-dark-mode.user.js)
 
 ![line](/Documentation/line.png)
 

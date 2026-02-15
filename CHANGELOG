@@ -1,3 +1,19 @@
+2026-02-16
+
+-   overcastfm-dark-mode v1.0: Initial release
+
+2026-01-27
+
+-   github-actions-comment-deleter v1.02: Add "Resolve All Comments" button to automatically resolve review threads
+
+2026-01-15
+
+-   overcastfm-mark-as-played v1.2: UI enhancements
+
+2025-08-06
+
+-   github-actions-comment-deleter v1.01: Add Runway bot to deletion targets, code cleanup
+
 2025-01-29
 
 -   github-merged-dates v1.1: Update `@match`
