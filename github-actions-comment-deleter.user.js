@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Github Actions Comment Deleter
 // @namespace    https://github.com/MattFaz/Userscripts
-// @version      1.02
+// @version      1.04
 // @description  Delete all Github Actions bot comments and resolve review threads
 // @author       https://github.com/MattFaz
 // @match        https://github.com/*
@@ -13,20 +13,32 @@
 (function () {
   "use strict";
 
+  function isPullRequestPage() {
+    return /\/pull\/\d+/.test(location.pathname);
+  }
+
   function addDeleteButton() {
-    const header = document.querySelector(".gh-header-actions");
+    if (!isPullRequestPage()) return;
+
+    // New React-based PR layout uses data-component="PH_Actions", fall back to legacy selector
+    const header =
+      document.querySelector('[data-component="PH_Actions"]') ||
+      document.querySelector(".gh-header-actions");
     if (!header) return;
+
+    // Prevent duplicate buttons
+    if (header.querySelector(".bot-comment-deleter-btn")) return;
 
     const deleteBtn = document.createElement("button");
     deleteBtn.textContent = "Delete Bot Comments";
-    deleteBtn.className = "btn btn-sm";
+    deleteBtn.className = "btn btn-sm bot-comment-deleter-btn";
     deleteBtn.style.marginLeft = "10px";
     deleteBtn.onclick = deleteAllBotComments;
     header.appendChild(deleteBtn);
 
     const resolveBtn = document.createElement("button");
     resolveBtn.textContent = "Resolve All Comments";
-    resolveBtn.className = "btn btn-sm";
+    resolveBtn.className = "btn btn-sm bot-comment-deleter-btn";
     resolveBtn.style.marginLeft = "10px";
     resolveBtn.onclick = resolveAllComments;
     header.appendChild(resolveBtn);
@@ -34,10 +46,9 @@
 
   async function deleteAllBotComments() {
     const comments = Array.from(document.querySelectorAll(".TimelineItem")).filter((item) => {
-      const githubActionsBot = item.querySelector('.author[href="/apps/github-actions"]');
-      const runwayBot = item.querySelector('.author[href="/apps/runway-bot"]');
+      const appAuthor = item.querySelector('.author[href^="/apps/"]');
       const botLabel = item.querySelector(".Label--secondary");
-      return (githubActionsBot || runwayBot) && botLabel && botLabel.textContent.trim() === "bot";
+      return appAuthor && botLabel && botLabel.textContent.trim() === "bot";
     });
 
     console.log(`Found ${comments.length} bot comments`);
@@ -95,5 +106,16 @@
     console.log("Finished resolving comments");
   }
 
+  // Run on initial load
   addDeleteButton();
+
+  // Re-run on GitHub SPA navigation (Turbo Drive)
+  document.addEventListener("turbo:load", addDeleteButton);
+  document.addEventListener("pjax:end", addDeleteButton); // legacy fallback
+
+  // Fallback: observe DOM for the header appearing after dynamic render
+  new MutationObserver(() => addDeleteButton()).observe(document.body, {
+    childList: true,
+    subtree: true,
+  });
 })();
