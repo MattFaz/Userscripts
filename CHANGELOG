@@ -1,3 +1,11 @@
+2026-08-21
+
+-   actual-budget-credit-available v1.1: Generic `@match`, credit limits stored per account via `GM`
+
+2026-08-20
+
+-   actual-budget-credit-available v1.0: Initial release
+
 2026-02-16
 
 -   overcastfm-dark-mode v1.0: Initial release

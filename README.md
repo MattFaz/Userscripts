@@ -10,6 +10,7 @@ _Note: Chrome may require you to enable Developer Mode. To enable Developer Mode
 
 # Available Scripts
 
+-   [Actual Budget Credit Card Available](#actual-budget-credit-card-available)
 -   [CommBank Credit Card Usage](#commbank-credit-card-usage)
 -   [Git Cherry-Pick Command Button](#copy-git-cherry-pick-command-button)
 -   [Github Actions Comment Deleter](#github-actions-comment-deleter)
@@ -25,6 +26,16 @@ _Note: Chrome may require you to enable Developer Mode. To enable Developer Mode
 _Not created by me, but I find them useful_
 
 -   [ChatGPT CSS Fixes](https://gist.github.com/alexchexes/d2ff0b9137aa3ac9de8b0448138125ce/raw/chatgpt_ui_fix.user.js) - Adjusts width of side bar and messages of the ChatGPT web interface
+
+![line](/Documentation/line.png)
+
+## [Actual Budget Credit Card Available](/actual-budget-credit-available.user.js)
+
+Actual Budget shows a credit card account's balance, but not how much credit is left. This script adds an "Available" total next to the Cleared / Uncleared totals in the account header, calculated as your credit limit minus the current balance.
+
+Set the limit from the userscript manager menu ("Set credit limit for this account") or by clicking the Available total. Limits are stored per account, so you can add one for each credit card. Works on any Actual instance; accounts without a limit set are left untouched.
+
+[Click to install](https://github.com/MattFaz/Userscripts/raw/main/actual-budget-credit-available.user.js)
 
 ![line](/Documentation/line.png)
 
