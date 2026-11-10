@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Github Actions Comment Deleter
 // @namespace    https://github.com/MattFaz/Userscripts
-// @version      1.04
+// @version      1.06
 // @description  Delete all Github Actions bot comments and resolve review threads
 // @author       https://github.com/MattFaz
 // @match        https://github.com/*
@@ -83,21 +83,19 @@
   }
 
   async function resolveAllComments() {
-    // Find all resolve conversation buttons
-    const resolveButtons = document.querySelectorAll(
-      'button[name="comment[resolve]"], form.js-resolvable-timeline-thread-form button[type="submit"]'
-    );
+    // React PR layout: one icon button per unresolved thread, labelled only by aria-label
+    const selector = 'button[data-dd-action-name="pull_requests.thread.resolve"]';
+    const total = document.querySelectorAll(selector).length;
 
-    console.log(`Found ${resolveButtons.length} resolve buttons`);
+    console.log(`Found ${total} resolve buttons`);
 
-    for (const button of resolveButtons) {
+    // Re-query each time because React re-renders the thread list after every resolve
+    for (let i = 0; i < total; i++) {
       try {
-        // Check if the button text indicates it's a resolve button (not unresolve)
-        const buttonText = button.textContent.trim().toLowerCase();
-        if (buttonText.includes("resolve") && !buttonText.includes("unresolve")) {
-          button.click();
-          await new Promise((resolve) => setTimeout(resolve, 500));
-        }
+        const button = document.querySelector(selector);
+        if (!button) break;
+        button.click();
+        await new Promise((resolve) => setTimeout(resolve, 1000));
       } catch (error) {
         console.error("Error resolving comment:", error);
       }
